@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Customer Feedback{% endblock %}
+{% block content %}
+<div class="space-y-8">
+    <div class="rounded-3xl bg-white p-10 shadow-sm">
+        <h1 class="text-4xl font-bold">Customer Feedback</h1>
+        <p class="mt-4 text-slate-600">Share your experience and read ratings from organisations using AI-Solutions.</p>
+    </div>
+
+    <section class="rounded-3xl bg-white p-8 shadow-sm">
+        <h2 class="text-2xl font-bold">Give feedback</h2>
+        <form method="post" class="mt-6 space-y-5" data-live-validate>
+            {{ form.hidden_tag() }}
+            <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                    {{ form.customer_name.label(class_='block text-sm font-semibold text-slate-700') }}
+                    {{ form.customer_name(class_='mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm', required=True, maxlength='120') }}
+                    {% if form.customer_name.errors %}<p class="mt-1 text-sm text-rose-600">{{ form.customer_name.errors[0] }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.position.label(class_='block text-sm font-semibold text-slate-700') }}
+                    {{ form.position(class_='mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm', maxlength='120') }}
+                    {% if form.position.errors %}<p class="mt-1 text-sm text-rose-600">{{ form.position.errors[0] }}</p>{% endif %}
+                </div>
+            </div>
+            <div>
+                {{ form.comment.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.comment(class_='mt-2 w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm', rows='4', required=True, minlength='10', maxlength='1000') }}
+                {% if form.comment.errors %}<p class="mt-1 text-sm text-rose-600">{{ form.comment.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700">Rating</label>
+                <div class="mt-2 flex flex-row-reverse justify-end gap-1 star-rating">
+                    {% for value in [5, 4, 3, 2, 1] %}
+                        <input id="rating-{{ value }}" type="radio" name="rating" value="{{ value }}" class="sr-only" required {% if form.rating.data == value or (not form.rating.data and value == 5) %}checked{% endif %} />
+                        <label for="rating-{{ value }}" class="cursor-pointer text-3xl text-slate-300" aria-label="{{ value }} stars">&#9733;</label>
+                    {% endfor %}
+                </div>
+                {% if form.rating.errors %}<p class="mt-1 text-sm text-rose-600">{{ form.rating.errors[0] }}</p>{% endif %}
+            </div>
+            {{ form.submit(class_='rounded-3xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white') }}
+        </form>
+    </section>
+
+    <section class="grid gap-6 md:grid-cols-2">
+        {% for feedback in feedback_items %}
+            <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <div class="text-xl text-amber-500" aria-label="Rating {{ feedback.rating }} out of 5">
+                    {% for value in range(1, 6) %}{% if value <= feedback.rating %}&#9733;{% else %}<span class="text-slate-300">&#9733;</span>{% endif %}{% endfor %}
+                </div>
+                <p class="mt-4 text-slate-700">"{{ feedback.comment }}"</p>
+                <div class="mt-4 text-sm text-slate-500">
+                    <p>{{ feedback.customer_name }}{% if feedback.position %}, {{ feedback.position }}{% endif %}</p>
+                </div>
+            </article>
+        {% else %}
+            <p class="text-slate-600">No feedback has been submitted yet.</p>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,213 @@
+/* Main website theme
+   I kept the colors simple so every page feels connected:
+   green for trust, blue for technology, white for clean cards, and black/slate for readable text. */
+:root {
+  --brand-green: #16a34a;
+  --brand-green-dark: #166534;
+  --brand-blue: #2563eb;
+  --brand-ink: #0f172a;
+  --brand-muted: #475569;
+  --brand-line: #dbeafe;
+  --brand-soft: #f4fbf8;
+  --brand-card: #ffffff;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.14), transparent 26%),
+    linear-gradient(135deg, #f8fffb 0%, #eef7ff 48%, #f8fafc 100%);
+  color: var(--brand-ink);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a,
+button {
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+a:hover,
+button:hover {
+  transform: translateY(-1px);
+}
+
+img {
+  background: #e2e8f0;
+}
+
+td,
+th,
+p,
+dd {
+  overflow-wrap: anywhere;
+}
+
+/* These utility overrides keep Tailwind cards light and readable across all templates. */
+.bg-white {
+  background-color: var(--brand-card) !important;
+  color: var(--brand-ink) !important;
+}
+
+.bg-slate-50 {
+  background-color: #f8fafc !important;
+  color: var(--brand-ink) !important;
+}
+
+.bg-slate-900,
+.bg-slate-950,
+.bg-slate-900\/90,
+.bg-slate-900\/85,
+.bg-slate-950\/95 {
+  background: linear-gradient(135deg, #10231c, #0f172a) !important;
+}
+
+.border-slate-200,
+.border-slate-300,
+.border-emerald-700\/20 {
+  border-color: rgba(37, 99, 235, 0.14) !important;
+}
+
+.text-slate-900 {
+  color: var(--brand-ink) !important;
+}
+
+.text-slate-700 {
+  color: #334155 !important;
+}
+
+.text-slate-600 {
+  color: var(--brand-muted) !important;
+}
+
+.text-slate-500 {
+  color: #64748b !important;
+}
+
+.text-indigo-600,
+.text-emerald-300,
+.text-emerald-200 {
+  color: var(--brand-green) !important;
+}
+
+.bg-indigo-600,
+.bg-emerald-600 {
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-blue)) !important;
+}
+
+.hover\:bg-indigo-700:hover,
+.hover\:bg-emerald-700:hover {
+  background: linear-gradient(90deg, var(--brand-green-dark), #1d4ed8) !important;
+}
+
+.shadow-sm,
+.shadow-card {
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.10) !important;
+}
+
+.rounded-2xl,
+.rounded-3xl {
+  border-radius: 1rem !important;
+}
+
+/* Header and footer use a darker brand band so the white content cards stand out. */
+header {
+  background: linear-gradient(90deg, #071f17 0%, #0f3d2e 45%, #123a6b 100%) !important;
+  color: #f8fafc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.18);
+}
+
+header nav a {
+  color: rgba(241, 245, 249, 0.88);
+  font-weight: 600;
+}
+
+header nav a:hover {
+  color: #bbf7d0;
+}
+
+footer {
+  background: linear-gradient(90deg, #071f17, #0f172a) !important;
+  color: rgba(248, 250, 252, 0.88);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Forms are kept white with a clear green focus state for easy reading. */
+input,
+textarea,
+select {
+  background-color: #ffffff;
+  color: var(--brand-ink);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--brand-green) !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f59e0b;
+}
+
+/* Chatbot has a compact dark shell but light message/input areas for contrast. */
+aside .rounded-2xl {
+  border-color: rgba(37, 99, 235, 0.16);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+#chatbot-messages > div {
+  background: #eef7ff !important;
+  color: var(--brand-ink) !important;
+}
+
+#chatbot-form input {
+  background: #ffffff !important;
+  color: var(--brand-ink) !important;
+  border-color: rgba(37, 99, 235, 0.20) !important;
+}
+
+#chatbot-form button {
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-blue)) !important;
+}
+
+/* Live form validation styles shared by public pages. */
+.is-invalid {
+  border-color: #e11d48 !important;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.12) !important;
+}
+
+.field-error {
+  color: #be123c;
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+}
+
+.field-hint {
+  color: #64748b;
+  font-size: 0.78rem;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 640px) {
+  .max-w-7xl {
+    max-width: 100% !important;
+  }
+
+  aside[aria-hidden="true"] {
+    display: none;
+  }
+}

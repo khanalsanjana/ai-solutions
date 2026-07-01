@@ -1,0 +1,52 @@
+{% extends 'admin_base.html' %}
+{% block title %}Inquiries{% endblock %}
+{% block page_title %}Inquiry Management{% endblock %}
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <p class="text-slate-600">View every customer inquiry submitted through the Contact Us form.</p>
+        <a href="{{ url_for('admin.export_inquiries') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-sm">Export CSV</a>
+    </div>
+
+    <div class="space-y-3">
+        {% for inquiry in inquiries %}
+        <div class="admin-card">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-slate-900">{{ inquiry.full_name }}</h3>
+                    <p class="text-sm text-slate-600 mt-1">{{ inquiry.job_title }} at {{ inquiry.company }}</p>
+                    <p class="text-xs text-slate-500 mt-2">{{ inquiry.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+                <form method="post" action="{{ url_for('admin.delete_inquiry', inquiry_id=inquiry.id) }}" onsubmit="return confirm('Delete this inquiry?');">
+                    <button type="submit" class="btn-delete">Delete</button>
+                </form>
+            </div>
+            
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <p class="font-semibold text-slate-700">Email</p>
+                    <p class="text-slate-600 break-words">{{ inquiry.email }}</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-700">Phone</p>
+                    <p class="text-slate-600">{{ inquiry.phone }}</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-slate-700">Country</p>
+                    <p class="text-slate-600">{{ inquiry.country }}</p>
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-slate-50 rounded-lg">
+                <p class="text-xs font-semibold text-slate-700 uppercase">Job Details</p>
+                <p class="mt-2 text-sm text-slate-700 whitespace-pre-line">{{ inquiry.job_details }}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="admin-card text-center py-12">
+            <p class="text-slate-600">No inquiries have been submitted yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

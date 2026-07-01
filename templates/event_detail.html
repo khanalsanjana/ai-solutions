@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.name }}{% endblock %}
+{% block content %}
+<div class="space-y-8">
+    <section class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
+        {% if event.image_filename %}
+            <div class="relative h-80 overflow-hidden bg-slate-100 md:h-96">
+                <img src="{{ url_for('static', filename='uploads/' ~ event.image_filename) }}" alt="{{ event.name }}" class="gallery-image h-full w-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                    <a href="{{ url_for('public.events') }}" class="text-sm font-semibold text-white/90">Back to events</a>
+                    <p class="mt-5 text-sm font-semibold uppercase tracking-wide text-emerald-200">{{ event.date }} | {{ event.location }}</p>
+                    <h1 class="mt-2 max-w-4xl text-4xl font-bold text-white md:text-5xl">{{ event.name }}</h1>
+                </div>
+            </div>
+        {% else %}
+            <div class="p-8">
+                <a href="{{ url_for('public.events') }}" class="text-sm font-semibold text-indigo-600">Back to events</a>
+                <p class="mt-5 text-sm font-semibold uppercase tracking-wide text-emerald-700">{{ event.date }} | {{ event.location }}</p>
+                <h1 class="mt-2 max-w-4xl text-4xl font-bold text-slate-900 md:text-5xl">{{ event.name }}</h1>
+            </div>
+        {% endif %}
+        <div class="grid gap-6 p-8 lg:grid-cols-[1fr_0.35fr]">
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Event Details</p>
+                {% if event.details %}
+                    <p class="mt-3 text-base leading-7 text-slate-600">{{ event.details }}</p>
+                {% else %}
+                    <p class="mt-3 text-base leading-7 text-slate-600">More details for this event will be added soon.</p>
+                {% endif %}
+            </div>
+            <div class="rounded-3xl bg-gradient-to-br from-emerald-50 to-blue-50 p-5">
+                <p class="text-sm font-semibold text-slate-700">Images</p>
+                <p class="mt-2 text-3xl font-bold text-slate-900">{{ gallery_items|length + (1 if event.image_filename else 0) }}</p>
+                <p class="text-sm text-slate-500">image{% if gallery_items|length + (1 if event.image_filename else 0) != 1 %}s{% endif %} available</p>
+            </div>
+        </div>
+    </section>
+
+    {% if gallery_items %}
+        <section class="space-y-4">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">Event Images</p>
+                    <h2 class="text-3xl font-bold text-slate-900">Photos from this event</h2>
+                </div>
+                <a href="{{ url_for('public.event_gallery', event_id=event.id) }}" class="text-sm font-semibold text-indigo-600">Open gallery view</a>
+            </div>
+            <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {% for item in gallery_items %}
+                    <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
+                        <div class="relative h-64 overflow-hidden bg-slate-100">
+                            <img src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" alt="{{ item.title }}" class="gallery-image h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                        </div>
+                        <div class="space-y-3 p-6">
+                            <h3 class="text-xl font-bold text-slate-900">{{ item.title }}</h3>
+                            {% if item.caption %}
+                                <p class="text-sm leading-6 text-slate-600">{{ item.caption }}</p>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% elif not event.image_filename %}
+        <div class="rounded-3xl border border-dashed border-blue-200 bg-white p-10 text-center shadow-sm">
+            <h2 class="text-2xl font-bold text-slate-900">No images added yet</h2>
+            <p class="mt-3 text-slate-600">Images uploaded for this event will appear here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

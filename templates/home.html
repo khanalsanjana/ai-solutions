@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="space-y-12">
+    <section class="rounded-3xl bg-slate-950 text-white shadow-lg">
+        <div class="grid gap-8 p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-10">
+            <div class="space-y-6">
+                <span class="inline-flex rounded-full bg-cyan-400/20 px-4 py-2 text-sm font-semibold text-cyan-100">AI software solutions for growing teams</span>
+                <h1 class="text-4xl font-bold tracking-tight lg:text-5xl">Promote services, capture demand, and manage customer inquiries.</h1>
+                <p class="max-w-xl text-lg text-slate-200">AI-Solutions builds employee assistants, automation workflows, analytics dashboards, and knowledge tools for modern organisations.</p>
+                <div class="flex flex-col gap-4 sm:flex-row">
+                    <a href="{{ url_for('public.contact') }}" class="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20">Submit an inquiry</a>
+                    <a href="{{ url_for('public.solutions') }}" class="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90">View past solutions</a>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80" alt="Team reviewing software dashboards" class="h-80 w-full rounded-3xl object-cover" />
+        </div>
+    </section>
+
+    <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <a href="{{ url_for('public.services') }}" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Services</p>
+            <h2 class="mt-2 text-xl font-bold">AI assistants, analytics, automation</h2>
+            <p class="mt-3 text-sm text-slate-600">Structured service pages explain what customers can request.</p>
+        </a>
+        <a href="{{ url_for('public.solutions') }}" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Past solutions</p>
+            <h2 class="mt-2 text-xl font-bold">Industry success stories</h2>
+            <p class="mt-3 text-sm text-slate-600">Examples show how the company has solved real business needs.</p>
+        </a>
+        <a href="{{ url_for('public.gallery') }}" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Gallery</p>
+            <h2 class="mt-2 text-xl font-bold">Promotional event photos</h2>
+            <p class="mt-3 text-sm text-slate-600">Images support credibility and highlight outreach activities.</p>
+        </a>
+        <a href="{{ url_for('public.events') }}" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Events</p>
+            <h2 class="mt-2 text-xl font-bold">Upcoming sessions</h2>
+            <p class="mt-3 text-sm text-slate-600">Customers can discover webinars, launches, and briefings.</p>
+        </a>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-2">
+        <div class="rounded-3xl bg-white p-8 shadow-sm">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold">Featured articles</h2>
+                    <p class="text-slate-600">Promotional insight content for AI adoption.</p>
+                </div>
+                <a href="{{ url_for('public.articles') }}" class="text-sm font-semibold text-indigo-600">All articles</a>
+            </div>
+            <div class="mt-6 space-y-5">
+                {% for article in featured_articles %}
+                    <article class="overflow-hidden rounded-3xl border border-slate-200">
+                        {% if article.image_filename %}
+                            <img src="{{ url_for('static', filename='uploads/' ~ article.image_filename) }}" alt="{{ article.title }}" class="h-40 w-full object-cover gallery-image" />
+                        {% endif %}
+                        <div class="p-5">
+                            <h3 class="text-xl font-semibold">{{ article.title }}</h3>
+                            <p class="mt-3 text-slate-600">{{ article.summary }}</p>
+                            <a href="{{ url_for('public.article_detail', article_id=article.id) }}" class="mt-4 inline-flex text-sm font-semibold text-indigo-600">Read article</a>
+                        </div>
+                    </article>
+                {% else %}
+                    <p class="text-slate-600">No articles are available yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="rounded-3xl bg-white p-8 shadow-sm">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold">Customer feedback</h2>
+                    <p class="text-slate-600">Ratings from organisations using the solutions.</p>
+                </div>
+                <a href="{{ url_for('public.feedback') }}" class="text-sm font-semibold text-indigo-600">All feedback</a>
+            </div>
+            <div class="mt-6 space-y-4">
+                {% for feedback in feedback_items %}
+                    <div class="rounded-3xl border border-slate-200 p-5">
+                        <p class="text-xl text-amber-500">{% for value in range(1, 6) %}{% if value <= feedback.rating %}&#9733;{% else %}<span class="text-slate-300">&#9733;</span>{% endif %}{% endfor %}</p>
+                        <p class="mt-2 text-slate-700">"{{ feedback.comment }}"</p>
+                        <p class="mt-3 text-sm text-slate-500">{{ feedback.customer_name }}{% if feedback.position %}, {{ feedback.position }}{% endif %}</p>
+                    </div>
+                {% else %}
+                    <p class="text-slate-600">No feedback is published yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="rounded-3xl bg-white p-8 shadow-sm">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h2 class="text-3xl font-bold">Upcoming events</h2>
+                <p class="text-slate-600">Webinars, launches, and customer briefings.</p>
+            </div>
+            <a href="{{ url_for('public.events') }}" class="text-sm font-semibold text-indigo-600">All events</a>
+        </div>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+            {% for event in upcoming_events %}
+                <a href="{{ url_for('public.event_detail', event_id=event.id) }}" class="block overflow-hidden rounded-3xl border border-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
+                    {% if event.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ event.image_filename) }}" alt="{{ event.name }}" class="h-40 w-full object-cover gallery-image" />
+                    {% endif %}
+                    <div class="p-5">
+                        <p class="font-semibold">{{ event.name }}</p>
+                        <p class="mt-2 text-sm text-slate-500">{{ event.date }} | {{ event.location }}</p>
+                        <p class="mt-3 text-sm text-slate-600">{{ event.details }}</p>
+                    </div>
+                </a>
+            {% else %}
+                <p class="text-slate-600">No events are scheduled yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

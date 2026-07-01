@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Services{% endblock %}
+{% block content %}
+<!-- Services overview with clean green and blue brand styling -->
+<div class="space-y-10">
+    <div class="rounded-3xl border border-slate-200 bg-white p-10 shadow-card">
+        <h1 class="text-4xl font-bold text-slate-900">AI Services for Teams</h1>
+        <p class="mt-4 text-slate-600">We deliver AI solutions tailored to modern digital workplaces and employee experience programs.</p>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-3">
+        <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <h2 class="text-2xl font-semibold text-emerald-200">Employee Experience Automation</h2>
+            <p class="mt-3 text-slate-600">Build chat-based workflows, policy assistants, and internal help tools that reduce repetitive work.</p>
+        </article>
+        <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <h2 class="text-2xl font-semibold text-emerald-200">Intelligent Analytics</h2>
+            <p class="mt-3 text-slate-600">Track employee engagement and productivity with visual dashboards and trend reporting.</p>
+        </article>
+        <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+            <h2 class="text-2xl font-semibold text-emerald-200">Knowledge Management</h2>
+            <p class="mt-3 text-slate-600">Deliver searchable knowledge hubs and AI-guided search experiences for faster answer discovery.</p>
+        </article>
+    </div>
+</div>
+{% endblock %}

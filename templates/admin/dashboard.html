@@ -1,0 +1,132 @@
+{% extends 'admin_base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<div class="space-y-6">
+    <!-- Quick numbers and shortcuts for the admin home page -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="admin-card">
+            <p class="text-slate-600 text-sm font-semibold">Total Inquiries</p>
+            <p class="text-4xl font-bold text-teal-600 mt-3">{{ total_inquiries }}</p>
+        </div>
+        <div class="admin-card">
+            <p class="text-slate-600 text-sm font-semibold">Feedback Section</p>
+            <p class="text-lg font-semibold text-slate-900 mt-3">
+                <a href="{{ url_for('admin.manage_feedback') }}" class="text-blue-600 hover:text-blue-700">Review Feedback</a>
+            </p>
+        </div>
+        <div class="admin-card">
+            <p class="text-slate-600 text-sm font-semibold">Gallery</p>
+            <p class="text-lg font-semibold text-slate-900 mt-3">
+                <a href="{{ url_for('admin.manage_gallery') }}" class="text-teal-600 hover:text-teal-700">Upload Photos</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="admin-card">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h2 class="text-xl font-bold text-slate-900">Feedback Status</h2>
+                <p class="mt-1 text-sm text-slate-600">Approve or reject public feedback before it appears on the site.</p>
+            </div>
+            <a href="{{ url_for('admin.manage_feedback') }}" class="text-sm px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">Review All</a>
+        </div>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+            <div class="stat-card">
+                <p class="stat-value">{{ feedback_status_counts.pending }}</p>
+                <p class="stat-label">Pending</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-value">{{ feedback_status_counts.approved }}</p>
+                <p class="stat-label">Approved</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-value">{{ feedback_status_counts.rejected }}</p>
+                <p class="stat-label">Rejected</p>
+            </div>
+        </div>
+        <div class="mt-6 space-y-3">
+            {% for feedback in pending_feedback %}
+                <div class="flex flex-col gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p class="font-semibold text-slate-900">{{ feedback.customer_name }}</p>
+                        <p class="text-sm text-slate-600">{{ feedback.comment }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <form method="post" action="{{ url_for('admin.update_feedback_status', feedback_id=feedback.id) }}">
+                            <input type="hidden" name="status" value="approved" />
+                            <button type="submit" class="btn-edit">Approve</button>
+                        </form>
+                        <form method="post" action="{{ url_for('admin.update_feedback_status', feedback_id=feedback.id) }}">
+                            <input type="hidden" name="status" value="rejected" />
+                            <button type="submit" class="btn-delete">Reject</button>
+                        </form>
+                        <form method="post" action="{{ url_for('admin.delete_feedback', feedback_id=feedback.id) }}" onsubmit="return confirm('Delete this feedback?');">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <p class="mt-4 text-sm text-slate-600">No feedback is waiting for review.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent inquiries table -->
+    <div class="admin-card">
+        <div class="flex items-center justify-between mb-5">
+            <h2 class="text-xl font-bold text-slate-900">Recent Inquiries</h2>
+            <div class="flex gap-3">
+                <a href="{{ url_for('admin.inquiries') }}" class="text-sm px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100">View All</a>
+                <a href="{{ url_for('admin.export_inquiries') }}" class="text-sm px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">Export CSV</a>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Country</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inquiry in recent_inquiries %}
+                    <tr>
+                        <td><span class="font-semibold">{{ inquiry.full_name }}</span></td>
+                        <td>{{ inquiry.company }}</td>
+                        <td>{{ inquiry.country }}</td>
+                        <td class="text-sm text-slate-600">{{ inquiry.created_at.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center text-slate-600 py-8">No inquiries yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Country analytics progress bars -->
+    {% if country_counts %}
+    <div class="admin-card">
+        <h2 class="text-xl font-bold text-slate-900 mb-5">Inquiry Source Analytics</h2>
+        <div class="space-y-4">
+            {% for country, count in country_counts.items() %}
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-slate-700 font-medium">{{ country }}</span>
+                    <span class="text-sm font-semibold text-slate-900">{{ count }}</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div class="bg-gradient-to-r from-emerald-500 to-blue-600 h-2.5 rounded-full" style="width: {{ (count / total_inquiries * 100) if total_inquiries else 0 }}%"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<!-- Contact form page kept light so labels and inputs are easy to read -->
+<div class="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-card">
+    <h1 class="text-3xl font-bold text-slate-900">Contact AI-Solutions</h1>
+    <p class="mt-2 text-slate-600">Complete the inquiry form below and our team will review your request.</p>
+    <form method="post" class="mt-8" data-live-validate>
+        {{ form.hidden_tag() }}
+        <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+                {{ form.full_name.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.full_name(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='Enter your name', required=True, maxlength='120') }}
+                {% if form.full_name.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.full_name.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                {{ form.email.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.email(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='email@example.com', type='email', required=True, maxlength='120') }}
+                {% if form.email.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.email.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                {{ form.phone.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.phone(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='980*******', required=True, maxlength='20', **{'data-phone': 'true'}) }}
+                {% if form.phone.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.phone.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                {{ form.company.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.company(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='Enter your company name', required=True, maxlength='120') }}
+                {% if form.company.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.company.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                {{ form.country.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.country(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='Enter your country', required=True, maxlength='80') }}
+                {% if form.country.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.country.errors[0] }}</p>{% endif %}
+            </div>
+            <div>
+                {{ form.job_title.label(class_='block text-sm font-semibold text-slate-700') }}
+                {{ form.job_title(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm placeholder-slate-400', placeholder='Enter your job title', required=True, maxlength='120') }}
+                {% if form.job_title.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.job_title.errors[0] }}</p>{% endif %}
+            </div>
+        </div>
+        <div class="mt-4">
+            {{ form.job_details.label(class_='block text-sm font-semibold text-slate-700') }}
+            {{ form.job_details(class_='mt-2 block w-full rounded-3xl border border-slate-300 px-4 py-3 text-sm h-40 placeholder-slate-400', placeholder='Describe your employee experience goals...', required=True, minlength='20', maxlength='2000') }}
+            {% if form.job_details.errors %}<p class="mt-1 text-rose-400 text-sm">{{ form.job_details.errors[0] }}</p>{% endif %}
+        </div>
+        <div class="mt-6">
+            {{ form.submit(class_='w-full rounded-3xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700') }}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<article class="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-white shadow-sm">
+    {% if article.image_filename %}
+        <img src="{{ url_for('static', filename='uploads/' ~ article.image_filename) }}" alt="{{ article.title }}" class="h-80 w-full object-cover gallery-image" />
+    {% endif %}
+    <div class="p-8">
+        <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Article</p>
+        <h1 class="mt-3 text-4xl font-bold">{{ article.title }}</h1>
+        <p class="mt-4 text-lg text-slate-600">{{ article.summary }}</p>
+        <p class="mt-2 text-sm text-slate-500">Published on {{ article.published_at.strftime('%Y-%m-%d') }}</p>
+        <div class="mt-8 whitespace-pre-line text-slate-700">{{ article.content }}</div>
+        <a href="{{ url_for('public.articles') }}" class="mt-8 inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Back to articles</a>
+    </div>
+</article>
+{% endblock %}
