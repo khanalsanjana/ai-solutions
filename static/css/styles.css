@@ -47,7 +47,10 @@ img {
 td,
 th,
 p,
-dd {
+dd,
+h1,
+h2,
+h3 {
   overflow-wrap: anywhere;
 }
 

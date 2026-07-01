@@ -9,25 +9,25 @@
     {% block head %}{% endblock %}
 </head>
 <body class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50 text-slate-900">
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex min-h-screen flex-col overflow-hidden md:h-screen md:flex-row">
         <!-- Sidebar navigation for all admin pages -->
-        <aside class="w-64 bg-gradient-to-b from-emerald-900 via-slate-950 to-blue-900 text-white shadow-lg flex flex-col">
-            <div class="p-6 border-b border-white/10 bg-slate-950/30">
+        <aside class="w-full bg-gradient-to-b from-emerald-900 via-slate-950 to-blue-900 text-white shadow-lg flex flex-col md:w-64">
+            <div class="p-4 border-b border-white/10 bg-slate-950/30 md:p-6">
                 <h1 class="text-2xl font-bold text-white">Admin Dashboard</h1>
                 <p class="text-xs text-emerald-100 mt-1">AI-Solutions</p>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-2">
+            <nav class="flex flex-wrap gap-2 px-4 py-4 md:block md:flex-1 md:space-y-2 md:py-6">
                 <!-- Text labels are used here so the sidebar stays clean on every browser. -->
-                <a href="{{ url_for('admin.dashboard') }}" class="block px-4 py-3 rounded-lg {% if request.endpoint == 'admin.dashboard' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Dashboard</a>
-                <a href="{{ url_for('admin.inquiries') }}" class="block px-4 py-3 rounded-lg {% if request.endpoint == 'admin.inquiries' or request.endpoint == 'admin.delete_inquiry' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Inquiries</a>
-                <a href="{{ url_for('admin.manage_articles') }}" class="block px-4 py-3 rounded-lg {% if 'article' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Articles</a>
-                <a href="{{ url_for('admin.manage_events') }}" class="block px-4 py-3 rounded-lg {% if 'event' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Events</a>
-                <a href="{{ url_for('admin.manage_feedback') }}" class="block px-4 py-3 rounded-lg {% if request.endpoint == 'admin.manage_feedback' or request.endpoint == 'admin.delete_feedback' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Feedback</a>
-                <a href="{{ url_for('admin.manage_gallery') }}" class="block px-4 py-3 rounded-lg {% if 'gallery' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Gallery</a>
+                <a href="{{ url_for('admin.dashboard') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if request.endpoint == 'admin.dashboard' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Dashboard</a>
+                <a href="{{ url_for('admin.inquiries') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if request.endpoint == 'admin.inquiries' or request.endpoint == 'admin.delete_inquiry' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Inquiries</a>
+                <a href="{{ url_for('admin.manage_articles') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if 'article' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Articles</a>
+                <a href="{{ url_for('admin.manage_events') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if 'event' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Events</a>
+                <a href="{{ url_for('admin.manage_feedback') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if request.endpoint == 'admin.manage_feedback' or request.endpoint == 'admin.delete_feedback' %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Feedback</a>
+                <a href="{{ url_for('admin.manage_gallery') }}" class="block rounded-lg px-3 py-2 text-sm md:px-4 md:py-3 md:text-base {% if 'gallery' in request.endpoint %}bg-emerald-600 text-white{% else %}text-slate-200 hover:bg-white/10{% endif %} transition-colors">Gallery</a>
             </nav>
 
-            <div class="p-4 border-t border-white/10 space-y-2">
+            <div class="flex gap-2 border-t border-white/10 p-4 md:block md:space-y-2">
                 <a href="{{ url_for('public.home') }}" class="block px-4 py-2 rounded-lg text-slate-200 hover:bg-white/10 text-sm transition-colors">View Site</a>
                 <a href="{{ url_for('admin.logout') }}" class="block px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold transition-colors">Sign Out</a>
             </div>
@@ -35,8 +35,8 @@
 
         <main class="flex-1 overflow-auto flex flex-col">
             <!-- Top bar keeps the active page title and user greeting together. -->
-            <div class="bg-white/95 border-b border-blue-100 shadow-sm px-8 py-4 backdrop-blur-sm">
-                <div class="flex items-center justify-between">
+            <div class="bg-white/95 border-b border-blue-100 shadow-sm px-4 py-4 backdrop-blur-sm md:px-8">
+                <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <h2 class="text-xl font-semibold text-slate-900">{% block page_title %}{% endblock %}</h2>
                     <div class="text-sm text-slate-600">
                         Welcome, <span class="font-semibold text-slate-900">{{ session.get('admin_username', 'Admin') }}</span>
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="flex-1 overflow-auto p-8">
+            <div class="flex-1 overflow-auto p-4 md:p-8">
                 <!-- Flash messages are styled by category but keep the same Flask behavior. -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}

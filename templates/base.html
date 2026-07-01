@@ -65,9 +65,13 @@
 
     <footer class="mt-16 bg-slate-950 py-8 text-slate-200">
         <div class="mx-auto max-w-7xl px-4 pb-28 text-sm sm:pb-8">
-            <div class="flex flex-col justify-between gap-4 md:flex-row">
+            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                 <p>&copy; {{ current_year }} AI-Solutions. Built for academic product development.</p>
-                <p>Secure inquiry handling | Responsive UI | Admin analytics.</p>
+                <nav class="flex flex-wrap gap-4">
+                    <a href="{{ url_for('public.about') }}" class="text-slate-200 hover:text-emerald-200">About</a>
+                    <a href="{{ url_for('public.services') }}" class="text-slate-200 hover:text-emerald-200">Services</a>
+                    <a href="{{ url_for('public.contact') }}" class="text-slate-200 hover:text-emerald-200">Contact</a>
+                </nav>
             </div>
         </div>
     </footer>
