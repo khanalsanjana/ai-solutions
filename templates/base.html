@@ -13,15 +13,15 @@
         <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 sm:flex-row">
             <a href="{{ url_for('public.home') }}" class="text-2xl font-bold text-slate-100">AI-Solutions</a>
             <nav class="flex flex-wrap justify-center gap-4 text-sm text-slate-300">
-                <a href="{{ url_for('public.home') }}">Home</a>
-                <a href="{{ url_for('public.about') }}">About</a>
-                <a href="{{ url_for('public.services') }}">Services</a>
-                <a href="{{ url_for('public.solutions') }}">Solutions</a>
-                <a href="{{ url_for('public.feedback') }}">Feedback</a>
-                <a href="{{ url_for('public.articles') }}">Articles</a>
-                <a href="{{ url_for('public.gallery') }}">Gallery</a>
-                <a href="{{ url_for('public.events') }}">Events</a>
-                <a href="{{ url_for('public.contact') }}">Contact</a>
+                <a href="{{ url_for('public.home') }}" class="{% if request.endpoint == 'public.home' %}text-emerald-200{% endif %}">Home</a>
+                <a href="{{ url_for('public.about') }}" class="{% if request.endpoint == 'public.about' %}text-emerald-200{% endif %}">About</a>
+                <a href="{{ url_for('public.services') }}" class="{% if request.endpoint == 'public.services' %}text-emerald-200{% endif %}">Services</a>
+                <a href="{{ url_for('public.solutions') }}" class="{% if request.endpoint == 'public.solutions' %}text-emerald-200{% endif %}">Solutions</a>
+                <a href="{{ url_for('public.feedback') }}" class="{% if request.endpoint == 'public.feedback' %}text-emerald-200{% endif %}">Feedback</a>
+                <a href="{{ url_for('public.articles') }}" class="{% if request.endpoint in ['public.articles', 'public.article_detail'] %}text-emerald-200{% endif %}">Articles</a>
+                <a href="{{ url_for('public.gallery') }}" class="{% if request.endpoint in ['public.gallery', 'public.event_gallery'] %}text-emerald-200{% endif %}">Gallery</a>
+                <a href="{{ url_for('public.events') }}" class="{% if request.endpoint in ['public.events', 'public.event_detail'] %}text-emerald-200{% endif %}">Events</a>
+                <a href="{{ url_for('public.contact') }}" class="{% if request.endpoint == 'public.contact' %}text-emerald-200{% endif %}">Contact</a>
             </nav>
         </div>
     </header>
@@ -67,11 +67,6 @@
         <div class="mx-auto max-w-7xl px-4 pb-28 text-sm sm:pb-8">
             <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                 <p>&copy; {{ current_year }} AI-Solutions. Built for academic product development.</p>
-                <nav class="flex flex-wrap gap-4">
-                    <a href="{{ url_for('public.about') }}" class="text-slate-200 hover:text-emerald-200">About</a>
-                    <a href="{{ url_for('public.services') }}" class="text-slate-200 hover:text-emerald-200">Services</a>
-                    <a href="{{ url_for('public.contact') }}" class="text-slate-200 hover:text-emerald-200">Contact</a>
-                </nav>
             </div>
         </div>
     </footer>
