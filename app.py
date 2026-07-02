@@ -1,12 +1,24 @@
 import sys
 from datetime import UTC, datetime
+from pathlib import Path
+from urllib.parse import urlparse
 
-from flask import Flask, redirect, request, url_for, flash
+from flask import Flask, redirect, request, url_for, flash, send_from_directory
 from config import Config
 from models import db
 from routes.public import public_bp
 from routes.admin import admin_bp
 from services.seed import initialize_sample_data
+
+
+def ensure_storage_paths(app):
+    upload_folder = Path(app.config["UPLOAD_FOLDER"])
+    upload_folder.mkdir(parents=True, exist_ok=True)
+
+    database_uri = app.config["SQLALCHEMY_DATABASE_URI"]
+    if database_uri.startswith("sqlite:///"):
+        database_path = Path(urlparse(database_uri).path)
+        database_path.parent.mkdir(parents=True, exist_ok=True)
 
 
 def ensure_database_columns():
@@ -43,6 +55,7 @@ def create_app(config_class=Config, config_overrides=None):
     if config_overrides:
         app.config.update(config_overrides)
 
+    ensure_storage_paths(app)
     db.init_app(app)
 
     with app.app_context():
@@ -58,8 +71,15 @@ def create_app(config_class=Config, config_overrides=None):
     app.register_blueprint(admin_bp, url_prefix="/admin")
 
     @app.context_processor
-    def inject_year():
-        return {"current_year": datetime.now(UTC).year}
+    def inject_template_helpers():
+        return {
+            "current_year": datetime.now(UTC).year,
+            "uploaded_file_url": lambda filename: url_for("uploaded_file", filename=filename),
+        }
+
+    @app.route("/uploads/<path:filename>")
+    def uploaded_file(filename):
+        return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
     @app.errorhandler(413)
     def file_too_large(error):

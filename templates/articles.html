@@ -10,7 +10,7 @@
         {% for article in articles %}
             <article class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
                 {% if article.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' ~ article.image_filename) }}" alt="{{ article.title }}" class="h-56 w-full object-cover gallery-image" />
+                    <img src="{{ uploaded_file_url(article.image_filename) }}" alt="{{ article.title }}" class="h-56 w-full object-cover gallery-image" />
                 {% endif %}
                 <div class="p-8">
                     <h2 class="text-2xl font-semibold">{{ article.title }}</h2>

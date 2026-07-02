@@ -3,7 +3,7 @@
 {% block content %}
 <article class="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-white shadow-sm">
     {% if article.image_filename %}
-        <img src="{{ url_for('static', filename='uploads/' ~ article.image_filename) }}" alt="{{ article.title }}" class="h-80 w-full object-cover gallery-image" />
+        <img src="{{ uploaded_file_url(article.image_filename) }}" alt="{{ article.title }}" class="h-80 w-full object-cover gallery-image" />
     {% endif %}
     <div class="p-8">
         <p class="text-sm font-semibold uppercase tracking-wide text-indigo-600">Article</p>

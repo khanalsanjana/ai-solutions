@@ -54,7 +54,7 @@
                 <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {% for item in event.gallery_items %}
                         <article class="rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-                            <img src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" alt="{{ item.title }}" class="h-64 w-full object-cover gallery-image" />
+                            <img src="{{ uploaded_file_url(item.filename) }}" alt="{{ item.title }}" class="h-64 w-full object-cover gallery-image" />
                             <div class="p-6">
                                 <div class="flex items-start justify-between gap-3">
                                     <h3 class="text-xl font-semibold">{{ item.title }}</h3>
@@ -79,7 +79,7 @@
                 <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {% for item in unassigned_gallery_items %}
                         <article class="rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-sm">
-                            <img src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" alt="{{ item.title }}" class="h-64 w-full object-cover gallery-image" />
+                            <img src="{{ uploaded_file_url(item.filename) }}" alt="{{ item.title }}" class="h-64 w-full object-cover gallery-image" />
                             <div class="p-6">
                                 <div class="flex items-start justify-between gap-3">
                                     <h3 class="text-xl font-semibold">{{ item.title }}</h3>

@@ -23,7 +23,7 @@
             {% for item in gallery_items %}
                 <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
                     <div class="relative h-64 overflow-hidden bg-slate-100">
-                        <img src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" alt="{{ item.title }}" class="gallery-image h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                        <img src="{{ uploaded_file_url(item.filename) }}" alt="{{ item.title }}" class="gallery-image h-full w-full object-cover transition duration-300 group-hover:scale-105" />
                     </div>
                     <div class="space-y-3 p-6">
                         <h2 class="text-xl font-bold text-slate-900">{{ item.title }}</h2>
