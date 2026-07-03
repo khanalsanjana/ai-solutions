@@ -1,7 +1,6 @@
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
-from urllib.parse import urlparse
 
 from flask import Flask, redirect, request, url_for, flash, send_from_directory
 from config import Config
@@ -16,8 +15,8 @@ def ensure_storage_paths(app):
     upload_folder.mkdir(parents=True, exist_ok=True)
 
     database_uri = app.config["SQLALCHEMY_DATABASE_URI"]
-    if database_uri.startswith("sqlite:///"):
-        database_path = Path(urlparse(database_uri).path)
+    if database_uri.startswith("sqlite:///") and database_uri != "sqlite:///:memory:":
+        database_path = Path(database_uri.removeprefix("sqlite:///"))
         database_path.parent.mkdir(parents=True, exist_ok=True)
 
 

@@ -32,6 +32,7 @@ def test_homepage_loads(client):
 
 
 def test_contact_form_submission(client):
+    initial_count = Inquiry.query.count()
     response = client.post('/contact', data={
         'full_name': 'Student Tester',
         'email': 'student@test.com',
@@ -44,7 +45,7 @@ def test_contact_form_submission(client):
 
     assert response.status_code == 200
     assert b'Your inquiry has been submitted successfully' in response.data
-    assert Inquiry.query.count() == 1
+    assert Inquiry.query.count() == initial_count + 1
 
 
 def test_admin_login_required(client):
